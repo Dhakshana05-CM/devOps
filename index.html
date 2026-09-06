@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dhakshana — Software Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #14132B;
+    --bg-soft: #1C1B3A;
+    --panel: #201F42;
+    --text: #F5F3FF;
+    --text-dim: #A6A3C9;
+    --cyan: #00D9C0;
+    --magenta: #FF3D81;
+    --yellow: #FFC53D;
+    --line: rgba(245,243,255,0.10);
+    --radius-card: 18px;
+    --radius-chip: 999px;
+    --maxw: 1120px;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection{ background: var(--magenta); color: #fff; }
+
+  h1,h2,h3{
+    font-family: 'Space Grotesk', sans-serif;
+    margin: 0;
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+  }
+
+  .mono{ font-family: 'IBM Plex Mono', monospace; }
+
+  a{ color: inherit; }
+
+  .wrap{
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ---------- Focus visibility ---------- */
+  a:focus-visible, button:focus-visible{
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px;
+  }
+
+  /* ---------- Nav ---------- */
+  header{
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(10px);
+    background: rgba(20,19,43,0.75);
+    border-bottom: 1px solid var(--line);
+  }
+  nav.wrap{
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
+  .logo{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+  }
+  .logo span{ color: var(--cyan); }
+  .navlinks{
+    display:flex;
+    gap: 28px;
+    list-style:none;
+    padding:0; margin:0;
+  }
+  .navlinks a{
+    text-decoration:none;
+    font-size: 0.95rem;
+    color: var(--text-dim);
+    transition: color .2s ease;
+    position: relative;
+  }
+  .navlinks a:hover{ color: var(--text); }
+  @media (max-width: 720px){
+    .navlinks{ display:none; }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding: 96px 0 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 48px;
+    align-items:center;
+  }
+  @media (max-width: 860px){
+    .hero-grid{ grid-template-columns: 1fr; }
+  }
+  .prompt-line{
+    display:inline-flex;
+    align-items:center;
+    gap: 8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--cyan);
+    background: rgba(0,217,192,0.08);
+    border: 1px solid rgba(0,217,192,0.3);
+    padding: 6px 14px;
+    border-radius: var(--radius-chip);
+    margin-bottom: 28px;
+  }
+  .prompt-line .cursor{
+    display:inline-block;
+    width: 7px; height: 15px;
+    background: var(--cyan);
+    animation: blink 1s steps(2) infinite;
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  .hero h1{
+    font-size: clamp(2.6rem, 6vw, 4.4rem);
+    font-weight: 700;
+  }
+  .hero h1 .accent{ color: var(--yellow); }
+  .hero p.lead{
+    margin-top: 22px;
+    font-size: 1.15rem;
+    color: var(--text-dim);
+    max-width: 46ch;
+  }
+  .hero-actions{
+    margin-top: 36px;
+    display:flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding: 13px 26px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration:none;
+    border: 1px solid transparent;
+    cursor:pointer;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{ transform: translateY(-2px); }
+  .btn-solid{
+    background: var(--magenta);
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(255,61,129,0.35);
+  }
+  .btn-outline{
+    border-color: var(--line);
+    color: var(--text);
+    background: transparent;
+  }
+  .btn-outline:hover{ border-color: var(--cyan); }
+
+  /* Hero visual: layered geometric shape representing "building blocks of code" */
+  .hero-visual{
+    position: relative;
+    height: 380px;
+  }
+  .blob{
+    position:absolute;
+    border-radius: 40% 60% 55% 45% / 45% 40% 60% 55%;
+    filter: blur(2px);
+    animation: float 8s ease-in-out infinite;
+  }
+  .blob.b1{
+    width: 260px; height: 260px;
+    background: linear-gradient(135deg, var(--magenta), #9C2CF3);
+    top: 10px; right: 40px;
+    opacity: 0.9;
+  }
+  .blob.b2{
+    width: 190px; height: 190px;
+    background: linear-gradient(135deg, var(--cyan), #1AA3FF);
+    bottom: 10px; left: 20px;
+    animation-delay: -3s;
+    opacity: 0.85;
+  }
+  .blob.b3{
+    width: 110px; height: 110px;
+    background: var(--yellow);
+    top: 60%; right: 10%;
+    border-radius: 30% 70% 60% 40% / 50%;
+    animation-delay: -5s;
+    opacity: 0.9;
+  }
+  @keyframes float{
+    0%,100%{ transform: translate(0,0) rotate(0deg); }
+    50%{ transform: translate(-12px, 18px) rotate(8deg); }
+  }
+  .code-card{
+    position:absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%,-50%);
+    width: 240px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 18px 20px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.35);
+  }
+  .code-card .dots{ display:flex; gap:6px; margin-bottom: 14px; }
+  .code-card .dots span{ width:9px; height:9px; border-radius:50%; display:inline-block; }
+  .code-card .dots span:nth-child(1){ background:#FF5F57; }
+  .code-card .dots span:nth-child(2){ background:#FEBC2E; }
+  .code-card .dots span:nth-child(3){ background:#28C840; }
+  .code-card pre{
+    margin:0;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    line-height: 1.7;
+    color: var(--text-dim);
+    white-space: pre-wrap;
+  }
+  .code-card .kw{ color: var(--magenta); }
+  .code-card .fn{ color: var(--cyan); }
+  .code-card .str{ color: var(--yellow); }
+
+  @media (prefers-reduced-motion: reduce){
+    .blob, .prompt-line .cursor{ animation: none; }
+  }
+
+  /* ---------- Section shell ---------- */
+  section{ padding: 88px 0; }
+  .section-head{
+    margin-bottom: 48px;
+    max-width: 60ch;
+  }
+  .section-tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+    display:block;
+  }
+  .section-tag .n{ color: var(--yellow); }
+  .section-head h2{
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+  }
+
+  /* ---------- About ---------- */
+  .about{
+    background: var(--bg-soft);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .about-grid{
+    display:grid;
+    grid-template-columns: 220px 1fr;
+    gap: 56px;
+    align-items:start;
+  }
+  @media (max-width: 720px){
+    .about-grid{ grid-template-columns: 1fr; }
+  }
+  .monogram{
+    width: 180px; height: 180px;
+    border-radius: 28px;
+    background: linear-gradient(150deg, var(--magenta), var(--cyan));
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 4.2rem;
+    color: var(--bg);
+    box-shadow: 0 20px 50px rgba(255,61,129,0.25);
+  }
+  .about-text p{
+    color: var(--text-dim);
+    font-size: 1.05rem;
+    max-width: 62ch;
+  }
+  .about-text p + p{ margin-top: 16px; }
+
+  .facts{
+    margin-top: 32px;
+    display:grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 36px;
+  }
+  @media (max-width: 560px){
+    .facts{ grid-template-columns: 1fr 1fr; }
+  }
+  .fact .num{
+    font-family:'Space Grotesk', sans-serif;
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--yellow);
+  }
+  .fact .label{
+    color: var(--text-dim);
+    font-size: 0.85rem;
+  }
+
+  /* ---------- Skills ---------- */
+  .skill-groups{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 860px){
+    .skill-groups{ grid-template-columns: 1fr; }
+  }
+  .skill-card{
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    padding: 26px;
+  }
+  .skill-card h3{
+    font-size: 1.05rem;
+    margin-bottom: 16px;
+  }
+  .skill-card .bar-label{
+    display:flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+  }
+  .bar-track{
+    height: 7px;
+    border-radius: 999px;
+    background: rgba(245,243,255,0.08);
+    overflow:hidden;
+    margin-bottom: 16px;
+  }
+  .bar-fill{ height:100%; border-radius: 999px; }
+  .skill-card:nth-child(1) .bar-fill{ background: var(--cyan); }
+  .skill-card:nth-child(2) .bar-fill{ background: var(--magenta); }
+  .skill-card:nth-child(3) .bar-fill{ background: var(--yellow); }
+
+  /* ---------- Projects ---------- */
+  .projects-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 960px){
+    .projects-grid{ grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px){
+    .projects-grid{ grid-template-columns: 1fr; }
+  }
+  .project-card{
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    transition: transform .2s ease, border-color .2s ease;
+  }
+  .project-card:hover{
+    transform: translateY(-4px);
+    border-color: rgba(245,243,255,0.25);
+  }
+  .project-thumb{
+    height: 140px;
+    position: relative;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .project-thumb svg{ width: 70%; height: 70%; }
+  .p1 .project-thumb{ background: linear-gradient(135deg, #2C2A5E, var(--cyan)); }
+  .p2 .project-thumb{ background: linear-gradient(135deg, #3A1E52, var(--magenta)); }
+  .p3 .project-thumb{ background: linear-gradient(135deg, #4A3B0E, var(--yellow)); }
+  .project-body{
+    padding: 22px 22px 24px;
+    flex:1;
+    display:flex;
+    flex-direction:column;
+  }
+  .project-body h3{ font-size: 1.05rem; margin-bottom: 8px; }
+  .project-body p{
+    color: var(--text-dim);
+    font-size: 0.92rem;
+    flex:1;
+  }
+  .tag-row{
+    margin-top: 16px;
+    display:flex;
+    flex-wrap:wrap;
+    gap: 8px;
+  }
+  .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    padding: 4px 10px;
+    border-radius: var(--radius-chip);
+    background: rgba(245,243,255,0.06);
+    color: var(--text-dim);
+    border: 1px solid var(--line);
+  }
+  .project-link{
+    margin-top: 18px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration:none;
+    color: var(--cyan);
+  }
+
+  /* ---------- Contact ---------- */
+  .contact{
+    background: var(--bg-soft);
+    border-top: 1px solid var(--line);
+  }
+  .contact-panel{
+    background: linear-gradient(120deg, #2A1B4D, #1C1B3A 60%);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: 56px;
+    display:grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 40px;
+    align-items:center;
+  }
+  @media (max-width: 780px){
+    .contact-panel{ grid-template-columns: 1fr; padding: 36px 28px; }
+  }
+  .contact-panel h2{ font-size: clamp(1.6rem, 4vw, 2.2rem); }
+  .contact-panel p{ color: var(--text-dim); margin-top: 12px; max-width: 46ch; }
+  .contact-links{
+    display:flex;
+    flex-direction:column;
+    gap: 14px;
+  }
+  .contact-links a{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 14px 18px;
+    background: rgba(245,243,255,0.05);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    text-decoration:none;
+    font-size: 0.95rem;
+    transition: border-color .2s ease, background .2s ease;
+  }
+  .contact-links a:hover{
+    border-color: var(--cyan);
+    background: rgba(0,217,192,0.06);
+  }
+  .contact-links .arrow{ color: var(--cyan); }
+
+  footer{
+    padding: 32px 0;
+    text-align:center;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+  }
+
+  /* ---------- Scroll reveal ---------- */
+  .reveal{
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .reveal.in{ opacity:1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <div class="logo">dhakshana<span>.dev</span></div>
+    <ul class="navlinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="btn btn-outline" style="padding:9px 20px; font-size:0.85rem;">Get in touch</a>
+  </nav>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="prompt-line">whoami<span class="cursor"></span></div>
+        <h1>Hi, I'm Dhakshana<span class="accent">.</span><br>I build software<span class="accent">.</span></h1>
+        <p class="lead">A software developer who enjoys turning complex problems into clean, reliable products — from backend systems to the interfaces people actually touch.</p>
+        <div class="hero-actions">
+          <a href="#projects" class="btn btn-solid">View my work</a>
+          <a href="#contact" class="btn btn-outline">Contact me</a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="blob b1"></div>
+        <div class="blob b2"></div>
+        <div class="blob b3"></div>
+        <div class="code-card">
+          <div class="dots"><span></span><span></span><span></span></div>
+          <pre><span class="kw">const</span> dev = {
+  name: <span class="str">"Dhakshana"</span>,
+  role: <span class="str">"Software Developer"</span>,
+  <span class="fn">loves</span>: [<span class="str">"clean code"</span>,
+          <span class="str">"good design"</span>]
+};</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="wrap about-grid">
+      <div class="reveal">
+        <div class="monogram">D</div>
+      </div>
+      <div class="about-text reveal">
+        <span class="section-tag"><span class="n">01.</span> about</span>
+        <h2>A little about me</h2>
+        <p style="margin-top:18px;">I'm Dhakshana, a software developer focused on building thoughtful, well-engineered products. I care about writing code that's easy to maintain and interfaces that are easy to use.</p>
+        <p>I enjoy the full lifecycle of a product — from the first sketch of an idea, through architecture and implementation, to shipping something real people rely on.</p>
+        <div class="facts">
+          <div class="fact"><div class="num">3+</div><div class="label">Years coding</div></div>
+          <div class="fact"><div class="num">10+</div><div class="label">Projects shipped</div></div>
+          <div class="fact"><div class="num">100%</div><div class="label">Debug persistence</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="section-tag"><span class="n">02.</span> skills</span>
+        <h2>What I work with</h2>
+      </div>
+      <div class="skill-groups reveal">
+        <div class="skill-card">
+          <h3>Languages</h3>
+          <div class="bar-label"><span>JavaScript</span><span>90%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:90%;"></div></div>
+          <div class="bar-label"><span>Python</span><span>85%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:85%;"></div></div>
+          <div class="bar-label"><span>SQL</span><span>75%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:75%;"></div></div>
+        </div>
+        <div class="skill-card">
+          <h3>Frameworks</h3>
+          <div class="bar-label"><span>React</span><span>88%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:88%;"></div></div>
+          <div class="bar-label"><span>Node.js</span><span>82%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:82%;"></div></div>
+          <div class="bar-label"><span>Express</span><span>78%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:78%;"></div></div>
+        </div>
+        <div class="skill-card">
+          <h3>Tools</h3>
+          <div class="bar-label"><span>Git / GitHub</span><span>92%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:92%;"></div></div>
+          <div class="bar-label"><span>Docker</span><span>70%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:70%;"></div></div>
+          <div class="bar-label"><span>Linux</span><span>80%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:80%;"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="section-tag"><span class="n">03.</span> projects</span>
+        <h2>Things I've built</h2>
+      </div>
+      <div class="projects-grid reveal">
+
+        <div class="project-card p1">
+          <div class="project-thumb">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="15" y="20" width="70" height="50" rx="6" stroke="white" stroke-opacity="0.8" stroke-width="3"/>
+              <line x1="15" y1="34" x2="85" y2="34" stroke="white" stroke-opacity="0.8" stroke-width="3"/>
+              <circle cx="24" cy="27" r="2.5" fill="white"/>
+              <circle cx="32" cy="27" r="2.5" fill="white"/>
+            </svg>
+          </div>
+          <div class="project-body">
+            <h3>Project One</h3>
+            <p>A web application built to solve a real workflow problem, with a focus on speed and a clean user experience.</p>
+            <div class="tag-row">
+              <span class="tag">React</span>
+              <span class="tag">Node.js</span>
+              <span class="tag">MongoDB</span>
+            </div>
+            <a href="#" class="project-link">View project →</a>
+          </div>
+        </div>
+
+        <div class="project-card p2">
+          <div class="project-thumb">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 70 L40 40 L55 55 L80 25" stroke="white" stroke-opacity="0.85" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="80" cy="25" r="4" fill="white"/>
+            </svg>
+          </div>
+          <div class="project-body">
+            <h3>Project Two</h3>
+            <p>A data-driven dashboard that turns raw numbers into clear, actionable insight for its users.</p>
+            <div class="tag-row">
+              <span class="tag">Python</span>
+              <span class="tag">Flask</span>
+              <span class="tag">PostgreSQL</span>
+            </div>
+            <a href="#" class="project-link">View project →</a>
+          </div>
+        </div>
+
+        <div class="project-card p3">
+          <div class="project-thumb">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="25" y="25" width="20" height="20" rx="4" fill="white" fill-opacity="0.9"/>
+              <rect x="55" y="25" width="20" height="20" rx="4" fill="white" fill-opacity="0.6"/>
+              <rect x="25" y="55" width="20" height="20" rx="4" fill="white" fill-opacity="0.6"/>
+              <rect x="55" y="55" width="20" height="20" rx="4" fill="white" fill-opacity="0.9"/>
+            </svg>
+          </div>
+          <div class="project-body">
+            <h3>Project Three</h3>
+            <p>A mobile-first tool that helps a small team coordinate tasks without the usual project-management overhead.</p>
+            <div class="tag-row">
+              <span class="tag">JavaScript</span>
+              <span class="tag">Express</span>
+              <span class="tag">Docker</span>
+            </div>
+            <a href="#" class="project-link">View project →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <div class="contact-panel reveal">
+        <div>
+          <span class="section-tag"><span class="n">04.</span> contact</span>
+          <h2>Let's build something together.</h2>
+          <p>Open to new opportunities, collaborations, or just a good conversation about software. Reach out below.</p>
+        </div>
+        <div class="contact-links">
+          <a href="mailto:dhakshana@example.com">Email <span class="arrow">→</span></a>
+          <a href="https://github.com/dhakshana" target="_blank" rel="noopener">GitHub <span class="arrow">→</span></a>
+          <a href="https://linkedin.com/in/dhakshana" target="_blank" rel="noopener">LinkedIn <span class="arrow">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">© <span id="year"></span> Dhakshana. Built with HTML, CSS &amp; JavaScript.</div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+
+  // Smooth-scroll nav (in case of older browsers ignoring CSS scroll-behavior)
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const target = document.querySelector(link.getAttribute('href'));
+      if(target){
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
